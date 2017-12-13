@@ -8,9 +8,7 @@ namespace ESILV.CloudApplication.Problem.MongoDBWrapper
 {
     public static class Constants
     {
-        public static string CONNECTION_STRING = "";
-        public static string PORT = "";
-
-    
+        public static string CONNECTION_STRING = "mongodb://localhost" + ":" + PORT;
+        public static string PORT = "27017";
     }
 }
