@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESILV.CloudApplication.Prob
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESILV.CloudApplication.Problem.Library", "ESILV.CloudApplication.Problem.Library\ESILV.CloudApplication.Problem.Library.csproj", "{FA8EE504-7D5B-41D1-8F51-09593179AE92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Esilv.CloudApplication.Problem.MongoDBWrapper", "Esilv.CloudApplication.Problem.MongoDBWrapper\Esilv.CloudApplication.Problem.MongoDBWrapper.csproj", "{CA6E24BF-8769-4F3E-B079-193CE87E9015}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESILV.CloudApplication.Problem.MongoDBWrapper", "Esilv.CloudApplication.Problem.MongoDBWrapper\ESILV.CloudApplication.Problem.MongoDBWrapper.csproj", "{CA6E24BF-8769-4F3E-B079-193CE87E9015}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
