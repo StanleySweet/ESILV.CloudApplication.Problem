@@ -7,6 +7,13 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+
+            <!-- Buttons arranged vertically inside a StackPanel. -->
+            <StackPanel HorizontalAlignment="Left">
+                <Button Click="Button_Click">Button 1</Button>
+                <Button>Button 2</Button>
+                <Button>Button 3</Button>
+            </StackPanel>
+
     </Grid>
 </Window>

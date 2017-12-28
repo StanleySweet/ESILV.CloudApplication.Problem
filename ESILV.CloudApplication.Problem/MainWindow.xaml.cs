@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ESILV.CloudApplication.Problem.MongoDBWrapper;
+using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace ESILV.CloudApplication.Problem
 {
     /// <summary>
@@ -20,9 +23,23 @@ namespace ESILV.CloudApplication.Problem
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MongoDBWrapper.MongoDBWrapper _mongoDBWrapper;
+
         public MainWindow()
         {
             InitializeComponent();
+            _mongoDBWrapper = new MongoDBWrapper.MongoDBWrapper();
+
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _mongoDBWrapper.Connect("test.tourPedia_paris");
+            var queryResult = new List<BsonDocument>();
+            Task<List<BsonDocument>> t = _mongoDBWrapper.QueryDatabase();
+            t.ContinueWith((result) => queryResult = result.Result);
+            t.Wait();
         }
     }
 }

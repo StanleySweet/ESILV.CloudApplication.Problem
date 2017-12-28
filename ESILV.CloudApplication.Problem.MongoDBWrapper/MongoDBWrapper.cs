@@ -10,12 +10,13 @@ using System.Threading.Tasks;
 
 namespace ESILV.CloudApplication.Problem.MongoDBWrapper
 {
-    public class Wrapper
+    public class MongoDBWrapper
     {
         private MongoClient _client;
         private IMongoDatabase _database;
+        private IMongoCollection<BsonDocument> _collection;
 
-        public Wrapper()
+        public MongoDBWrapper()
         {
             _client = new MongoClient(Constants.CONNECTION_STRING);
         }
@@ -23,23 +24,20 @@ namespace ESILV.CloudApplication.Problem.MongoDBWrapper
         public void Connect(string dbName)
         {
             _database = _client.GetDatabase(dbName);
-            var collection = _database.GetCollection<BsonDocument>("tokens");
+            _collection = _database.GetCollection<BsonDocument>("tokens");
 
-            Task t = queryDatabase(collection);
-            t.ContinueWith((str) =>
-            {
-                Console.WriteLine(str.Status.ToString());
-                Console.WriteLine("Query Ends.");
-            });
-            t.Wait();
-            Console.ReadKey();
+            //Task t = QueryDatabase(collection);
+            //t.ContinueWith((str) =>
+            //{
+            //    Console.WriteLine(str.Status.ToString());
+            //    Console.WriteLine("Query Ends.");
+            //});
+            //t.Wait();
         }
 
-        public async static Task<string> queryDatabase(IMongoCollection<BsonDocument> collection)
+        public async Task<List<BsonDocument>> QueryDatabase()
         {
-            Console.WriteLine("Query Starts...");
-
-            IAggregateFluent<BsonDocument> aggregate = collection.Aggregate()
+            IAggregateFluent<BsonDocument> aggregate = _collection.Aggregate()
                 .Group(new BsonDocument { { "_id", "$token" }, { "count", new BsonDocument("$sum", 1) } })
                 .Sort(new BsonDocument { { "count", -1 } })
                 .Limit(10);
@@ -48,7 +46,7 @@ namespace ESILV.CloudApplication.Problem.MongoDBWrapper
             {
                 Console.WriteLine(obj.ToString());
             }
-            return "finished";
+            return results;
         }
 
 
