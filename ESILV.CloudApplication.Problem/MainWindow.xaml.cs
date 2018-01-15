@@ -35,7 +35,7 @@ namespace ESILV.CloudApplication.Problem
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            _mongoDBWrapper.Connect("test.tourPedia_paris");
+            _mongoDBWrapper.Connect("test");
             var queryResult = new List<BsonDocument>();
             Task<List<BsonDocument>> t = _mongoDBWrapper.QueryDatabase();
             t.ContinueWith((result) => queryResult = result.Result);

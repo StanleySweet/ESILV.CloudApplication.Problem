@@ -24,7 +24,7 @@ namespace ESILV.CloudApplication.Problem.MongoDBWrapper
         public void Connect(string dbName)
         {
             _database = _client.GetDatabase(dbName);
-            _collection = _database.GetCollection<BsonDocument>("tokens");
+            _collection = _database.GetCollection<BsonDocument>("tourPedia_paris");
 
             //Task t = QueryDatabase(collection);
             //t.ContinueWith((str) =>
