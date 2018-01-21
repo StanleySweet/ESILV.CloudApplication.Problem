@@ -11,7 +11,7 @@
             <!-- Buttons arranged vertically inside a StackPanel. -->
             <StackPanel HorizontalAlignment="Left">
                 <Button Click="Button_Click">Button 1</Button>
-                <Button>Button 2</Button>
+                <Button Click="Button_Click_1">Charger un csv</Button>
                 <Button>Button 3</Button>
             </StackPanel>
 

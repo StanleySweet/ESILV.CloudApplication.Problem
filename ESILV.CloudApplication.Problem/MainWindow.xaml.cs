@@ -1,19 +1,14 @@
-﻿using ESILV.CloudApplication.Problem.MongoDBWrapper;
-using MongoDB.Bson;
-using System;
+﻿using MongoDB.Bson;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Data;
+using System.Diagnostics;
+using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Forms;
+using MongoDB.Driver;
+using MongoDB.Bson;
 
 
 namespace ESILV.CloudApplication.Problem
@@ -41,5 +36,44 @@ namespace ESILV.CloudApplication.Problem
             t.ContinueWith((result) => queryResult = result.Result);
             t.Wait();
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Debug.WriteLine(openFileDialog1.FileName);
+                StreamReader sr = new
+                StreamReader(openFileDialog1.FileName);
+                System.Windows.Forms.MessageBox.Show(sr.ReadToEnd());
+                sr.Close();
+
+                DataTable csvTable = new DataTable();
+
+                MongoClient client = new MongoClient("mongodb://127.0.0.1:27017/test"); // local database
+                var db = client.GetDatabase("test");
+
+                var reader = new StreamReader(File.OpenRead(@""+openFileDialog1.FileName+"")); // where <full path to csv> is the file path, of course
+                IMongoCollection<BsonDocument> csvFile = db.GetCollection<BsonDocument>("test");
+
+                //reader.ReadLine(); // to skip header
+                string line = sr.ReadLine();
+                var columnNames = Regex.Split(line, ",");
+                while ((line = sr.ReadLine()) != null)
+                {
+                    BsonDocument row = new BsonDocument();
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        string[] cols = Regex.Split(line, ",");
+                        for (int i = 0; i < columnNames.Length; i++)
+                        {
+                            row.Add(columnNames[i],cols[i]);
+                        }
+                    }
+                    csvFile.InsertOne(row);
+                }
+            }
+        }
     }
 }
+
