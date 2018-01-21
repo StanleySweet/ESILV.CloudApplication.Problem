@@ -43,10 +43,10 @@ namespace ESILV.CloudApplication.Problem
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Debug.WriteLine(openFileDialog1.FileName);
-                StreamReader sr = new
-                StreamReader(openFileDialog1.FileName);
-                System.Windows.Forms.MessageBox.Show(sr.ReadToEnd());
-                sr.Close();
+                //StreamReader sr = new
+                //StreamReader(openFileDialog1.FileName);
+                //System.Windows.Forms.MessageBox.Show(sr.ReadToEnd());
+                //sr.Close();
 
                 DataTable csvTable = new DataTable();
 
@@ -57,12 +57,12 @@ namespace ESILV.CloudApplication.Problem
                 IMongoCollection<BsonDocument> csvFile = db.GetCollection<BsonDocument>("test");
 
                 //reader.ReadLine(); // to skip header
-                string line = sr.ReadLine();
+                string line = reader.ReadLine();
                 var columnNames = Regex.Split(line, ",");
-                while ((line = sr.ReadLine()) != null)
+                while ((line = reader.ReadLine()) != null)
                 {
                     BsonDocument row = new BsonDocument();
-                    while ((line = sr.ReadLine()) != null)
+                    while ((line = reader.ReadLine()) != null)
                     {
                         string[] cols = Regex.Split(line, ",");
                         for (int i = 0; i < columnNames.Length; i++)
