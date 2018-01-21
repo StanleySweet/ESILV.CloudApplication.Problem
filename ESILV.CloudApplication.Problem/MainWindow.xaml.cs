@@ -62,16 +62,14 @@ namespace ESILV.CloudApplication.Problem
                 while ((line = reader.ReadLine()) != null)
                 {
                     BsonDocument row = new BsonDocument();
-                    while ((line = reader.ReadLine()) != null)
+                    string[] cols = Regex.Split(line, ",");
+                    for (int i = 0; i < columnNames.Length; i++)
                     {
-                        string[] cols = Regex.Split(line, ",");
-                        for (int i = 0; i < columnNames.Length; i++)
-                        {
-                            row.Add(columnNames[i],cols[i]);
-                        }
+                        row.Add(columnNames[i],cols[i]);
                     }
                     csvFile.InsertOne(row);
                 }
+                System.Windows.Forms.MessageBox.Show(openFileDialog1.FileName + " correctement chargé dans la base de données", "",MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }
