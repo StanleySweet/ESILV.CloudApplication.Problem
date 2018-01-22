@@ -1,11 +1,9 @@
 ﻿namespace ESILV.CloudApplication.Problem
 {
     using MongoDB.Bson;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Text.RegularExpressions;
-    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Forms;
     using MongoDB.Driver;
@@ -26,7 +24,7 @@
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var queryResult = _mongoDBWrapper.QueryDatabase();
+            var queryResult = _mongoDBWrapper.CountLines();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

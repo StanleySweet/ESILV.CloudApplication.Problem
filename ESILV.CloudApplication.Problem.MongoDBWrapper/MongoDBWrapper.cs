@@ -41,7 +41,7 @@
             return _database.GetCollection<BsonDocument>(collectionName);
         }
 
-        public List<BsonDocument> QueryDatabase()
+        public List<BsonDocument> CountLines()
         {
             IAggregateFluent<BsonDocument> aggregate = _collection.Aggregate()
                 .Group(new BsonDocument { { "_id", "$token" }, { "count", new BsonDocument("$sum", 1) } })
@@ -53,6 +53,11 @@
                 Console.WriteLine(obj.ToString());
             }
             return results;
+        }
+
+        public List<BsonDocument> FirstQuery()
+        {
+            return new List<BsonDocument>();
         }
     }
 }
