@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Forms;
 using MongoDB.Driver;
 using MongoDB.Bson;
-
+using ESILV.CloudApplication.Problem.MongoDBWrapper;
 
 namespace ESILV.CloudApplication.Problem
 {
@@ -23,14 +23,11 @@ namespace ESILV.CloudApplication.Problem
         public MainWindow()
         {
             InitializeComponent();
-            _mongoDBWrapper = new MongoDBWrapper.MongoDBWrapper();
-
-
+            _mongoDBWrapper = new MongoDBWrapper.MongoDBWrapper(Constants.DATABASE_NAME, Constants.COLLECTION_NAME);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            _mongoDBWrapper.Connect("test");
             var queryResult = new List<BsonDocument>();
             Task<List<BsonDocument>> t = _mongoDBWrapper.QueryDatabase();
             t.ContinueWith((result) => queryResult = result.Result);
@@ -43,33 +40,25 @@ namespace ESILV.CloudApplication.Problem
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Debug.WriteLine(openFileDialog1.FileName);
-                //StreamReader sr = new
-                //StreamReader(openFileDialog1.FileName);
-                //System.Windows.Forms.MessageBox.Show(sr.ReadToEnd());
-                //sr.Close();
-
-                DataTable csvTable = new DataTable();
-
-                MongoClient client = new MongoClient("mongodb://127.0.0.1:27017/test"); // local database
-                var db = client.GetDatabase("test");
-
-                var reader = new StreamReader(File.OpenRead(@""+openFileDialog1.FileName+"")); // where <full path to csv> is the file path, of course
-                IMongoCollection<BsonDocument> csvFile = db.GetCollection<BsonDocument>("test");
-
-                //reader.ReadLine(); // to skip header
-                string line = reader.ReadLine();
-                var columnNames = Regex.Split(line, ",");
-                while ((line = reader.ReadLine()) != null)
+                IMongoCollection<BsonDocument> collection = _mongoDBWrapper.GetCollection(Constants.COLLECTION_NAME);
+                // where <full path to csv> is the file path, of course
+                // StreamReader is IDisposable, so dispose it properly.
+                using (StreamReader csvFile = new StreamReader(File.OpenRead(@"" + openFileDialog1.FileName + "")))
                 {
-                    BsonDocument row = new BsonDocument();
-                    string[] cols = Regex.Split(line, ",");
-                    for (int i = 0; i < columnNames.Length; i++)
+                    string line = csvFile.ReadLine();
+                    string[] columnNames = Regex.Split(line, ",");
+                    while ((line = csvFile.ReadLine()) != null)
                     {
-                        row.Add(columnNames[i],cols[i]);
+                        BsonDocument row = new BsonDocument();
+                        string[] cols = Regex.Split(line, ",");
+                        for (int i = 0; i < columnNames.Length; i++)
+                        {
+                            row.Add(columnNames[i], cols[i]);
+                        }
+                        collection.InsertOne(row);
                     }
-                    csvFile.InsertOne(row);
+                    System.Windows.Forms.MessageBox.Show(openFileDialog1.FileName + " correctement chargé dans la base de données", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                System.Windows.Forms.MessageBox.Show(openFileDialog1.FileName + " correctement chargé dans la base de données", "",MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }

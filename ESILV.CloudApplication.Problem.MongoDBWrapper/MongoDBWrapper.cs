@@ -16,23 +16,33 @@ namespace ESILV.CloudApplication.Problem.MongoDBWrapper
         private IMongoDatabase _database;
         private IMongoCollection<BsonDocument> _collection;
 
+        public MongoClient Client => _client;
+
         public MongoDBWrapper()
         {
-            _client = new MongoClient(Constants.CONNECTION_STRING);
+            Init(Constants.DATABASE_NAME, Constants.COLLECTION_NAME);
         }
 
-        public void Connect(string dbName)
+        public MongoDBWrapper(string databaseName, string collectionName)
         {
-            _database = _client.GetDatabase(dbName);
-            _collection = _database.GetCollection<BsonDocument>("tourPedia_paris");
+            Init(databaseName, collectionName);
+        }
 
-            //Task t = QueryDatabase(collection);
-            //t.ContinueWith((str) =>
-            //{
-            //    Console.WriteLine(str.Status.ToString());
-            //    Console.WriteLine("Query Ends.");
-            //});
-            //t.Wait();
+        public void Init(string databaseName, string collectionName)
+        {
+            _client = new MongoClient(Constants.CONNECTION_STRING + "/" + databaseName);
+            _database = GetDataBase(databaseName);
+            _collection = GetCollection(collectionName);
+        }
+
+        public IMongoDatabase GetDataBase(string dataBaseName)
+        {
+            return this._client.GetDatabase(dataBaseName);
+        }
+
+        public IMongoCollection<BsonDocument> GetCollection(string collectionName)
+        {
+            return _database.GetCollection<BsonDocument>(collectionName);
         }
 
         public async Task<List<BsonDocument>> QueryDatabase()
@@ -48,12 +58,5 @@ namespace ESILV.CloudApplication.Problem.MongoDBWrapper
             }
             return results;
         }
-
-
-        public void Disconnect()
-        {
-
-        }
-
     }
 }
