@@ -1,18 +1,16 @@
-﻿using MongoDB.Bson;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.IO;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Forms;
-using MongoDB.Driver;
-using MongoDB.Bson;
-using ESILV.CloudApplication.Problem.MongoDBWrapper;
-
-namespace ESILV.CloudApplication.Problem
+﻿namespace ESILV.CloudApplication.Problem
 {
+    using MongoDB.Bson;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
+    using System.Windows;
+    using System.Windows.Forms;
+    using MongoDB.Driver;
+    using ESILV.CloudApplication.Problem.MongoDBWrapper;
+
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
@@ -28,10 +26,7 @@ namespace ESILV.CloudApplication.Problem
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var queryResult = new List<BsonDocument>();
-            Task<List<BsonDocument>> t = _mongoDBWrapper.QueryDatabase();
-            t.ContinueWith((result) => queryResult = result.Result);
-            t.Wait();
+            var queryResult = _mongoDBWrapper.QueryDatabase();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

@@ -1,15 +1,11 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
-using MongoDB.Driver.Core.Connections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace ESILV.CloudApplication.Problem.MongoDBWrapper
+﻿namespace ESILV.CloudApplication.Problem.MongoDBWrapper
 {
+    using MongoDB.Bson;
+    using MongoDB.Driver;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
     public class MongoDBWrapper
     {
         private MongoClient _client;
@@ -45,13 +41,13 @@ namespace ESILV.CloudApplication.Problem.MongoDBWrapper
             return _database.GetCollection<BsonDocument>(collectionName);
         }
 
-        public async Task<List<BsonDocument>> QueryDatabase()
+        public List<BsonDocument> QueryDatabase()
         {
             IAggregateFluent<BsonDocument> aggregate = _collection.Aggregate()
                 .Group(new BsonDocument { { "_id", "$token" }, { "count", new BsonDocument("$sum", 1) } })
                 .Sort(new BsonDocument { { "count", -1 } })
                 .Limit(10);
-            List<BsonDocument> results = await aggregate.ToListAsync();
+            List<BsonDocument> results = aggregate.ToList();
             foreach (BsonDocument obj in results)
             {
                 Console.WriteLine(obj.ToString());
