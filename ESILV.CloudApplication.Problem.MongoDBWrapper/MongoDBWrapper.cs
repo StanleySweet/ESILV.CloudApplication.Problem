@@ -4,7 +4,9 @@
     using MongoDB.Driver;
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     public class MongoDBWrapper
     {
@@ -22,6 +24,22 @@
         public MongoDBWrapper(string databaseName, string collectionName)
         {
             Init(databaseName, collectionName);
+        }
+
+        public void ImportCsvIntoCollection(StreamReader csvFile)
+        {
+            string line = csvFile.ReadLine();
+            string[] columnNames = Regex.Split(line, ",");
+            while ((line = csvFile.ReadLine()) != null)
+            {
+                BsonDocument row = new BsonDocument();
+                string[] cols = Regex.Split(line, ",");
+                for (int i = 0; i < columnNames.Length; i++)
+                {
+                    row.Add(columnNames[i], cols[i]);
+                }
+                _collection.InsertOne(row);
+            }
         }
 
         public void Init(string databaseName, string collectionName)

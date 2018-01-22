@@ -33,23 +33,11 @@
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Debug.WriteLine(openFileDialog1.FileName);
-                IMongoCollection<BsonDocument> collection = _mongoDBWrapper.GetCollection(Constants.COLLECTION_NAME);
                 // where <full path to csv> is the file path, of course
                 // StreamReader is IDisposable, so dispose it properly.
                 using (StreamReader csvFile = new StreamReader(File.OpenRead(@"" + openFileDialog1.FileName + "")))
                 {
-                    string line = csvFile.ReadLine();
-                    string[] columnNames = Regex.Split(line, ",");
-                    while ((line = csvFile.ReadLine()) != null)
-                    {
-                        BsonDocument row = new BsonDocument();
-                        string[] cols = Regex.Split(line, ",");
-                        for (int i = 0; i < columnNames.Length; i++)
-                        {
-                            row.Add(columnNames[i], cols[i]);
-                        }
-                        collection.InsertOne(row);
-                    }
+                    _mongoDBWrapper.ImportCsvIntoCollection(csvFile);
                     System.Windows.Forms.MessageBox.Show(openFileDialog1.FileName + " correctement chargé dans la base de données", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
