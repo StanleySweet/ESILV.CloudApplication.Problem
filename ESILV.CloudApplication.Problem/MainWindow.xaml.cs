@@ -37,7 +37,7 @@
                 // StreamReader is IDisposable, so dispose it properly.
                 using (StreamReader csvFile = new StreamReader(File.OpenRead(@"" + openFileDialog1.FileName + "")))
                 {
-                    _mongoDBWrapper.ImportCsvIntoCollection(csvFile);
+                    _mongoDBWrapper.ImportCsvIntoCollection(csvFile, Constants.COLLECTION_NAME);
                     System.Windows.Forms.MessageBox.Show(openFileDialog1.FileName + " correctement chargé dans la base de données", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }

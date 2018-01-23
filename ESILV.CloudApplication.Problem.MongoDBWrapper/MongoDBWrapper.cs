@@ -26,7 +26,7 @@
             Init(databaseName, collectionName);
         }
 
-        public void ImportCsvIntoCollection(StreamReader csvFile)
+        public void ImportCsvIntoCollection(StreamReader csvFile, string collectionName)
         {
             string line = csvFile.ReadLine();
             string[] columnNames = Regex.Split(line, ",");
@@ -38,7 +38,7 @@
                 {
                     row.Add(columnNames[i], cols[i]);
                 }
-                _collection.InsertOne(row);
+                GetCollection(collectionName).InsertOne(row);
             }
         }
 
