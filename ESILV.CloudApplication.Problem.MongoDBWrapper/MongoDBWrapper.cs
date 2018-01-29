@@ -29,11 +29,11 @@
         public void ImportCsvIntoCollection(StreamReader csvFile, string collectionName)
         {
             string line = csvFile.ReadLine();
-            string[] columnNames = Regex.Split(line, ",");
+            string[] columnNames = Regex.Split(line, ";");
             while ((line = csvFile.ReadLine()) != null)
             {
                 BsonDocument row = new BsonDocument();
-                string[] cols = Regex.Split(line, ",");
+                string[] cols = Regex.Split(line, ";");
                 for (int i = 0; i < columnNames.Length; i++)
                 {
                     row.Add(columnNames[i], cols[i]);
@@ -75,7 +75,10 @@
 
         public List<BsonDocument> FirstQuery()
         {
-            return new List<BsonDocument>();
+            IAggregateFluent<BsonDocument> aggregate = _collection.Aggregate()
+                .Group(new BsonDocument { { "_id", "$DestCityName" }, { "count", new BsonDocument("$sum", 1) } })
+                .Sort(new BsonDocument { { "count", -1 } });
+            return aggregate.ToList();
         }
     }
 }

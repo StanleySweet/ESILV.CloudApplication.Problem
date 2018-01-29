@@ -12,7 +12,7 @@
         <StackPanel HorizontalAlignment="Left">
             <Button Click="Button_Click">Compter le nombre de documents</Button>
             <Button Click="Button_Click_1">Charger un csv</Button>
-            <Button>Button 3</Button>
+            <Button Click="Button_Click_2">Button 3</Button>
         </StackPanel>
 
     </Grid>
