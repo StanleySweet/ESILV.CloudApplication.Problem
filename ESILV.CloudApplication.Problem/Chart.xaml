@@ -7,10 +7,10 @@
         xmlns:DVC="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         xmlns:local="clr-namespace:ESILV.CloudApplication.Problem"
         mc:Ignorable="d"
-        Title="Chart" Height="300" Width="700">
+        Title="Chart" Height="Auto" Width="700">
 
-    <ScrollViewer >
-        <Grid Name="grid" Height="300" Width="700">
+    <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Cursor="Arrow">
+        <Grid Name="grid" Height="Auto" Width="700" >
             <DVC:Chart  Canvas.Top="80" Canvas.Left="10" Name="mcChart" Background="LightSteelBlue" >
                 <DVC:Chart.Series>
                     <DVC:BarSeries  Title="Number of flights per destinations" IndependentValueBinding="{Binding Path=Key}" DependentValueBinding="{Binding Path=Value}"/>
