@@ -14,6 +14,7 @@
             <Button Click="Button_Click_1">Charger un csv</Button>
             <Button Click="Button_Click_2">Button 3</Button>
         </StackPanel>
+        <TextBox Name="MaxCities" HorizontalAlignment="Left" Height="24" Margin="296,37,0,0" TextWrapping="Wrap" Text="Max cities" VerticalAlignment="Top" Width="120"/>
 
     </Grid>
 </Window>

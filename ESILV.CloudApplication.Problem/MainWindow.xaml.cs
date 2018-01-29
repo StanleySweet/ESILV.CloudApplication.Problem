@@ -25,6 +25,8 @@
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var queryResult = _mongoDBWrapper.CountLines();
+            CountResult win2 = new CountResult(queryResult.ToJson());
+            win2.Show();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -46,6 +48,9 @@
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             var queryResult = _mongoDBWrapper.FirstQuery();
+            var success = int.TryParse(MaxCities.Text, out int result);
+            Chart win2 = new Chart(queryResult.ToJson(), success ? result : 10);
+            win2.Show();
         }
     }
 }
