@@ -12,9 +12,12 @@
         <StackPanel HorizontalAlignment="Left">
             <Button Click="Button_Click">Compter le nombre de documents</Button>
             <Button Click="Button_Click_1">Charger un csv</Button>
-            <Button Click="Button_Click_2">Button 3</Button>
+            <Button Click="Button_Click_2">Destination les plus importantes</Button>
+            <Button Click="Button_Click_3">Destination les moins importantes</Button>
+            <Button Click="Button_Click_4">Nombre de kilomètres sur un mois</Button>
         </StackPanel>
-        <TextBox Name="MaxCities" HorizontalAlignment="Left" Height="24" Margin="296,37,0,0" TextWrapping="Wrap" Text="Max cities" VerticalAlignment="Top" Width="120"/>
-
+        <TextBox x:Name="Month2" HorizontalAlignment="Left" Height="19" Margin="192,61,0,0" TextWrapping="Wrap" Text="Jour" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="Month1" HorizontalAlignment="Left" Height="21" Margin="192,40,0,0" TextWrapping="Wrap" Text="Jour" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="Month3" HorizontalAlignment="Left" Height="19" Margin="192,80,0,0" TextWrapping="Wrap" Text="Mois" VerticalAlignment="Top" Width="120"/>
     </Grid>
 </Window>

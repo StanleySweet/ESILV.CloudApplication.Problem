@@ -21,13 +21,13 @@ namespace ESILV.CloudApplication.Problem
     /// </summary>
     public partial class Chart : Window
     {
-        public Chart(string data, int maxCities)
+        public Chart(string data)
         {
             InitializeComponent();
-            LoadBarChartData(data, maxCities);
+            LoadBarChartData(data);
         }
 
-        private void LoadBarChartData(string data , int max)
+        private void LoadBarChartData(string data)
         {
             var obj = JArray.Parse(data);
 
@@ -37,20 +37,9 @@ namespace ESILV.CloudApplication.Problem
             {
                 ++count;
                 values.Add(new KeyValuePair<string, int>(city["_id"].ToString(), int.Parse(city["count"].ToString())));
-                if (count == max)
-                    break;
             }
             ((BarSeries)mcChart.Series[0]).ItemsSource = values;
             ((BarSeries)mcChart.Series[0]).FontSize = 12;
-            //grid.RenderSize = ((BarSeries)mcChart.Series[0]).DesiredSize;
-            /*var chartArea = ((BarSeries)mcChart.Series[0]).ChartAreas[series.ChartArea];
-
-            // set view range to [0,max]
-            chartArea.AxisY.Minimum = 0;
-            chartArea.AxisY.Maximum = 10;
-            chartArea.CursorY.AutoScroll = true;
-            chartArea.AxisX.ScrollBar.ButtonStyle = ScrollBarButtonStyles.SmallScroll;*/
-            grid.Height = max * 25;
         }
     }
 }

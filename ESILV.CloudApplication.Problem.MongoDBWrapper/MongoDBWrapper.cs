@@ -1,13 +1,14 @@
 ﻿namespace ESILV.CloudApplication.Problem.MongoDBWrapper
 {
     using MongoDB.Bson;
+    using MongoDB.Bson.Serialization;
     using MongoDB.Driver;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
-    using System.Threading.Tasks;
+
     public class MongoDBWrapper
     {
         private MongoClient _client;
@@ -73,12 +74,56 @@
             return results;
         }
 
-        public List<BsonDocument> FirstQuery()
+
+        /// <summary>
+        /// Get the ten most visited destinations per day
+        /// </summary>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        public List<BsonDocument> FirstQuery(int month)
         {
             IAggregateFluent<BsonDocument> aggregate = _collection.Aggregate()
+                .Match(new BsonDocument { { "DayofMonth", month.ToString() } })
                 .Group(new BsonDocument { { "_id", "$DestCityName" }, { "count", new BsonDocument("$sum", 1) } })
-                .Sort(new BsonDocument { { "count", -1 } });
+                .Sort(new BsonDocument { { "count", -1 } })
+                .Limit(10);
             return aggregate.ToList();
+        }
+
+        /// <summary>
+        /// Get the ten less visited destinations per day
+        /// </summary>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        public List<BsonDocument> SecondQuery(int month)
+        {
+            IAggregateFluent<BsonDocument> aggregate = _collection.Aggregate()
+                .Match(new BsonDocument { { "DayofMonth", month.ToString() } })
+                .Group(new BsonDocument { { "_id", "$DestCityName" }, { "count", new BsonDocument("$sum", 1) } })
+                .Sort(new BsonDocument { { "count", 1 } })
+                .Limit(10);
+            return aggregate.ToList();
+        }
+
+        /// <summary>
+        /// Gets the total distance per month
+        /// </summary>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        public List<BsonDocument> ThirdQuery(int month)
+        {
+            string mapFunction = @"
+                function (){
+	                var flight = this;
+	                if (flight.Month === " + "\"" + month + "\"" + @")
+                    {
+                        emit('Total Distance', Number(flight.Distance));
+                    }
+                }";
+
+            string reduceFunction = "function (key, values) { return Array.sum(values);}";
+            var options = new MapReduceOptions<BsonDocument, BsonDocument>() { OutputOptions = MapReduceOutputOptions.Inline };
+            return _collection.MapReduce(mapFunction, reduceFunction, options).ToList();
         }
     }
 }
