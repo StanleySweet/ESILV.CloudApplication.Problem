@@ -81,6 +81,13 @@
             var countResultWindow = new CountResult(queryResult.ToJson(), "value");
             countResultWindow.Show();
         }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            var queryResult = _mongoDBWrapper.FifthQuery(!string.IsNullOrEmpty(City1.Text) && City1.Text != "Nom de la ville" ? City1.Text : "Detroit, MI");
+            var countResultWindow = new JsonViewer(queryResult.ToJson());
+            countResultWindow.Show();
+        }
     }
 }
 
