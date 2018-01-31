@@ -10,20 +10,42 @@
 
         <!-- Buttons arranged vertically inside a StackPanel. -->
         <StackPanel HorizontalAlignment="Left">
-            <Button Click="Button_Click">Compter le nombre de documents</Button>
             <Button Click="Button_Click_1">Charger un csv</Button>
-            <Button Click="Button_Click_2">Destination les plus importantes</Button>
-            <Button Click="Button_Click_3">Destination les moins importantes</Button>
-            <Button Click="Button_Click_4">Nombre de kilomètres sur un mois</Button>
-            <Button Click="Button_Click_5">Number of flights cancelled by month by reason</Button>
-            <Button Click="Button_Click_5" Content="Reason of cancelation of flights by airport"/>
-            <Button Click="Button_Click_6" Content="Indicator Delays related to weather per year"/>
+            <Separator/>
+            <TextBlock>Requêtes courantes</TextBlock>
+            <Button Click="Button_Click_2">Les 10 destinations les plus importantes par jour</Button>
+            <Button Click="Button_Click_3">Les 10 destinations les moins importantes par jour</Button>
+            <Button Click="Button_Click_4">Nombre de kilomètres parcouru par tous les avions sur un mois</Button>
+            <Button Click="Button_Click_5">Le nombre de vols annulés par mois groupé par raison.</Button>
+            <Separator></Separator>
+            <TextBlock>Requêtes peu fréquentes</TextBlock>
+            <Button Click="Button_Click_8">Types de problèmes causant des annulations par aéroport</Button>
+            <Button Click="Button_Click_9">Temps moyen de retard par aéroport et par an</Button>
+            <TextBlock></TextBlock>
+            <Separator></Separator>
+            <TextBlock>Indicateurs</TextBlock>
+            <Button Click="Button_Click_6" Content="Delais liés à la météo par année"/>
+            <Button Click="Button_Click_7" Content="Temps de taxi moyen par aéroport"/>
+            <Button Click="Button_Click">Compter le nombre de documents</Button>
         </StackPanel>
-        <TextBox x:Name="Month2" HorizontalAlignment="Left" Height="19" Margin="316,61,0,0" TextWrapping="Wrap" Text="Jour" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="Month1" HorizontalAlignment="Left" Height="21" Margin="316,40,0,0" TextWrapping="Wrap" Text="Jour" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="Month3" HorizontalAlignment="Left" Height="19" Margin="316,80,0,0" TextWrapping="Wrap" Text="Mois" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="Month4" HorizontalAlignment="Left" Height="19" Margin="316,99,0,0" TextWrapping="Wrap" Text="Mois" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="City1" HorizontalAlignment="Left" Height="19" Margin="316,118,0,0" TextWrapping="Wrap" Text="Nom de la ville" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="Annee1" HorizontalAlignment="Left" Height="19" Margin="316,142,0,0" TextWrapping="Wrap" Text="Année" VerticalAlignment="Top" Width="120"/>
+        <StackPanel HorizontalAlignment="Right">
+            <TextBox x:Name="Disabled1" IsEnabled="False" HorizontalAlignment="Right" Height="19"  TextWrapping="Wrap" Text="Disabled" VerticalAlignment="Top" Width="120"/>
+            <Separator/>
+            <TextBlock/>
+            <TextBox x:Name="Day1" HorizontalAlignment="Right" Height="19"  TextWrapping="Wrap" Text="Jour" VerticalAlignment="Top" Width="120"/>
+            <TextBox x:Name="Day2" HorizontalAlignment="Right" Height="19"  TextWrapping="Wrap" Text="Jour" VerticalAlignment="Top" Width="120"/>
+            <TextBox x:Name="Month1" HorizontalAlignment="Right" Height="21"  TextWrapping="Wrap" Text="Mois" VerticalAlignment="Top" Width="120"/>
+            <TextBox x:Name="Month2" HorizontalAlignment="Right" Height="19"  TextWrapping="Wrap" Text="Mois" VerticalAlignment="Top" Width="120"/>
+            <Separator/>
+            <TextBlock/>
+            <TextBox x:Name="City1" HorizontalAlignment="Right" Height="19"  TextWrapping="Wrap" Text="Nom de la ville" VerticalAlignment="Top" Width="120"/>
+            <TextBox x:Name="City4" HorizontalAlignment="Right" Height="19"  TextWrapping="Wrap" Text="Nom de la ville" VerticalAlignment="Top" Width="120"/>
+            <TextBox x:Name="Year2" HorizontalAlignment="Right" Height="21"  TextWrapping="Wrap" Text="Année" VerticalAlignment="Top" Width="120"/>
+            <Separator/>
+            <TextBlock/>
+            <TextBox x:Name="Year1" HorizontalAlignment="Right" Height="19"  TextWrapping="Wrap" Text="Année" VerticalAlignment="Top" Width="120"/>
+            <TextBox x:Name="City2" HorizontalAlignment="Right" Height="19"  TextWrapping="Wrap" Text="Nom de la ville" VerticalAlignment="Top" Width="120"/>
+           
+        </StackPanel>
     </Grid>
 </Window>

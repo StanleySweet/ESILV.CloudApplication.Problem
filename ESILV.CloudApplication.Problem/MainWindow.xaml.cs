@@ -50,7 +50,7 @@
         /// <param name="e"></param>
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            var success = int.TryParse(Month1.Text, out int result);
+            var success = int.TryParse(Day1.Text, out int result);
             var queryResult = _mongoDBWrapper.FirstQuery(success ? result : 10);
             var chartWindow = new Chart(queryResult.ToJson());
             chartWindow.Show();
@@ -63,7 +63,7 @@
         /// <param name="e"></param>
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            var success = int.TryParse(Month2.Text, out int result);
+            var success = int.TryParse(Day2.Text, out int result);
             var queryResult = _mongoDBWrapper.SecondQuery(success ? result : 10);
             var chartWindow = new Chart(queryResult.ToJson());
             chartWindow.Show();
@@ -76,7 +76,7 @@
         /// <param name="e"></param>
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            var success = int.TryParse(Month3.Text, out int result);
+            var success = int.TryParse(Month1.Text, out int result);
             var queryResult = _mongoDBWrapper.ThirdQuery(success ? result : 1);
             var countResultWindow = new CountResult(queryResult.ToJson(), "value", "km parcourus en un mois par l'ensemble des avions.");
             countResultWindow.Show();
@@ -84,16 +84,39 @@
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            var queryResult = _mongoDBWrapper.FifthQuery(!string.IsNullOrEmpty(City1.Text) && City1.Text != "Nom de la ville" ? City1.Text : "Detroit, MI");
+            var success = int.TryParse(Month2.Text, out int result);
+            var queryResult = _mongoDBWrapper.FourthQuery(success ? result : 1);
             var countResultWindow = new JsonViewer(queryResult.ToJson());
             countResultWindow.Show();
         }
 
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
-            var success = int.TryParse(Annee1.Text, out int result);
-            var queryResult = _mongoDBWrapper.ThirdQuery(success ? result : 2016);
-            var countResultWindow = new CountResult(queryResult.ToJson(), "value");
+            var success = int.TryParse(Year1.Text, out int result);
+            var queryResult = _mongoDBWrapper.SixthQuery(success ? result : 2016);
+            var countResultWindow = new JsonViewer(queryResult.ToJson());
+            countResultWindow.Show();
+        }
+
+        private void Button_Click_7(object sender, RoutedEventArgs e)
+        {
+            var queryResult = _mongoDBWrapper.EighthQuery(!string.IsNullOrEmpty(City2.Text) && City2.Text != "Nom de la ville" ? City2.Text : "Detroit, MI");
+            var countResultWindow = new JsonViewer(queryResult.ToJson());
+            countResultWindow.Show();
+        }
+
+        private void Button_Click_8(object sender, RoutedEventArgs e)
+        {
+            var queryResult = _mongoDBWrapper.FifthQuery(!string.IsNullOrEmpty(City1.Text) && City1.Text != "Nom de la ville" ? City1.Text : "Detroit, MI");
+            var countResultWindow = new JsonViewer(queryResult.ToJson());
+            countResultWindow.Show();
+        }
+
+        private void Button_Click_9(object sender, RoutedEventArgs e)
+        {
+            var success = int.TryParse(Year1.Text, out int result);
+            var queryResult = _mongoDBWrapper.SeventhQuery(!string.IsNullOrEmpty(City4.Text) && City4.Text != "Nom de la ville" ? City4.Text : "Detroit, MI",success ? result : 2016);
+            var countResultWindow = new CountResult(queryResult.ToJson(), "value", "min de retard sur l'année " + (success ? result : 2016) + " à "+ (!string.IsNullOrEmpty(City4.Text) && City4.Text != "Nom de la ville" ? City4.Text : "Detroit, MI"));
             countResultWindow.Show();
         }
     }

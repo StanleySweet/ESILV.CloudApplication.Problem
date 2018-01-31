@@ -101,10 +101,10 @@
         /// </summary>
         /// <param name="month"></param>
         /// <returns></returns>
-        public List<BsonDocument> FirstQuery(int month)
+        public List<BsonDocument> FirstQuery(int day)
         {
             IAggregateFluent<BsonDocument> aggregate = _collection.Aggregate()
-                .Match(new BsonDocument { { "DayofMonth", month.ToString() } })
+                .Match(new BsonDocument { { "DayofMonth", day.ToString() } })
                 .Group(new BsonDocument { { "_id", "$DestCityName" }, { "count", new BsonDocument("$sum", 1) } })
                 .Sort(new BsonDocument { { "count", -1 } })
                 .Limit(10);
@@ -115,10 +115,10 @@
         /// </summary>
         /// <param name="month"></param>
         /// <returns></returns>
-        public List<BsonDocument> SecondQuery(int month)
+        public List<BsonDocument> SecondQuery(int day)
         {
             IAggregateFluent<BsonDocument> aggregate = _collection.Aggregate()
-                .Match(new BsonDocument { { "DayofMonth", month.ToString() } })
+                .Match(new BsonDocument { { "DayofMonth", day.ToString() } })
                 .Group(new BsonDocument { { "_id", "$DestCityName" }, { "count", new BsonDocument("$sum", 1) } })
                 .Sort(new BsonDocument { { "count", 1 } })
                 .Limit(10);
@@ -134,7 +134,7 @@
             string mapFunction = @"
                 function (){
 	                var flight = this;
-	                if (flight.Month === " + "\"" + month + "\"" + @")
+	                if (flight.Month === """ + month + @""")
                     {
                         emit('Total Distance', Number(flight.Distance));
                     }
