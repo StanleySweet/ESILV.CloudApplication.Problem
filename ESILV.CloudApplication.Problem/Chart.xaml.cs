@@ -41,16 +41,10 @@ namespace ESILV.CloudApplication.Problem
                     break;
             }
             ((BarSeries)mcChart.Series[0]).ItemsSource = values;
-            ((BarSeries)mcChart.Series[0]).FontSize = 12;
-            //grid.RenderSize = ((BarSeries)mcChart.Series[0]).DesiredSize;
-            /*var chartArea = ((BarSeries)mcChart.Series[0]).ChartAreas[series.ChartArea];
-
-            // set view range to [0,max]
-            chartArea.AxisY.Minimum = 0;
-            chartArea.AxisY.Maximum = 10;
-            chartArea.CursorY.AutoScroll = true;
-            chartArea.AxisX.ScrollBar.ButtonStyle = ScrollBarButtonStyles.SmallScroll;*/
-            grid.Height = max * 25;
+            
+            ((BarSeries)mcChart.Series[0]).FontSize = 10;
+            //grid.Height = Math.Max(max * 25, count * 25);
+            ((BarSeries)mcChart.Series[0]).Height = Math.Max(Math.Max(max * 25, count * 25), 700);
         }
     }
 }
