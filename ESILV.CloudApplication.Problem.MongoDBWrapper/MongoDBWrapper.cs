@@ -256,14 +256,22 @@
             return _collection.MapReduce(mapFunction, reduceFunction, options).ToList();
         }
         /// <summary>
-        /// Total delay in minutes for an airport and for a year.
+        /// Average delay in minutes for a destination airport and for a year.
         /// </summary>
         /// <param name="airportCityName"></param>
         /// <param name="year"></param>
         /// <returns></returns>
         public List<BsonDocument> SeventhQuery(string airportCityName, int year)
         {
-            return new List<BsonDocument>();
+            string mapFunction = @"function(){
+                var flights = this;
+                var regExp = new RegExp(/['""']+/g);
+                if (flights.DestCityName.replace(regExp, '') == """ + airportCityName + @""" && flights.Year.replace(regExp,'') == """ + year + @""")
+                    emit(flights.DestCityName.replace(regExp, ''), (Number(flights.DepDelayMinutes) + Number(flights.ArrDelayMinutes)));	
+            }";
+            string reduceFunction = "function (key, values) { return Array.avg(values);}";
+            var options = new MapReduceOptions<BsonDocument, BsonDocument>() { OutputOptions = MapReduceOutputOptions.Inline };
+            return _collection.MapReduce(mapFunction, reduceFunction, options).ToList();
         }
         /// <summary>
         /// Average taxi time for a given airport
@@ -271,9 +279,17 @@
         /// <param name="airportCityName"></param>
         /// <param name="year"></param>
         /// <returns></returns>
-        public List<BsonDocument> EighthQuery(string airportCityName, int year)
+        public List<BsonDocument> EighthQuery(string airportCityName)
         {
-            return new List<BsonDocument>();
+            string mapFunction = @"function(){
+                var flights = this;
+                var regExp = new RegExp(/['""']+/g);
+                if (flights.DestCityName.replace(regExp, '') == """ + airportCityName + @""")
+                    emit(flights.DestCityName.replace(regExp, ''), (Number(flights.TaxiIn) + Number(flights.TaxiOut)));
+            }";
+            string reduceFunction = "function (key, values) { return Array.avg(values);}";
+            var options = new MapReduceOptions<BsonDocument, BsonDocument>() { OutputOptions = MapReduceOutputOptions.Inline };
+            return _collection.MapReduce(mapFunction, reduceFunction, options).ToList();
         }
         #endregion
     }
