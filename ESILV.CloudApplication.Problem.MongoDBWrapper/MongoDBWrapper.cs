@@ -206,5 +206,38 @@
             var options = new MapReduceOptions<BsonDocument, BsonDocument>() { OutputOptions = MapReduceOutputOptions.Inline };
             return _collection.MapReduce(mapFunction, reduceFunction, options).ToList();
         }
+
+
+        /// <summary>
+        /// Nombre de retard du à la météo sur un an
+        /// </summary>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        public List<BsonDocument> SixthQuery(int year)
+        {
+            string mapFunction = @"
+                function ()
+                {
+                  var flight = this;
+                  var regExp = new RegExp(/['""']+/g);
+                if (parseFloat(flight.Cancelled) != 0 && flight.Year == """ + year + @""")
+                {
+                    var cleanedCode = flight.CancellationCode.replace(regExp, '');
+
+                    switch (cleanedCode)
+                    {
+                        case ""B"":
+                            emit(""Weather"", 1);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }";
+
+            string reduceFunction = "function (key, values) { return Array.sum(values);}";
+            var options = new MapReduceOptions<BsonDocument, BsonDocument>() { OutputOptions = MapReduceOutputOptions.Inline };
+            return _collection.MapReduce(mapFunction, reduceFunction, options).ToList();
+        }
     }
 }
