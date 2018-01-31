@@ -88,6 +88,14 @@
             var countResultWindow = new JsonViewer(queryResult.ToJson());
             countResultWindow.Show();
         }
+
+        private void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+            var success = int.TryParse(Annee1.Text, out int result);
+            var queryResult = _mongoDBWrapper.ThirdQuery(success ? result : 2016);
+            var countResultWindow = new CountResult(queryResult.ToJson(), "value");
+            countResultWindow.Show();
+        }
     }
 }
 
