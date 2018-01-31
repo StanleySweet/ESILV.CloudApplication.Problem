@@ -18,10 +18,10 @@
             <Button Click="Button_Click_5">Number of flights cancelled by month by reason</Button>
             <Button Click="Button_Click_5" Content="Reason of cancelation of flights by airport"/>
         </StackPanel>
-        <TextBox x:Name="Month2" HorizontalAlignment="Left" Height="19" Margin="316,61,0,0" TextWrapping="Wrap" Text="Jour" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="Month1" HorizontalAlignment="Left" Height="21" Margin="316,40,0,0" TextWrapping="Wrap" Text="Jour" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="Month3" HorizontalAlignment="Left" Height="19" Margin="316,80,0,0" TextWrapping="Wrap" Text="Mois" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="Month4" HorizontalAlignment="Left" Height="19" Margin="316,99,0,0" TextWrapping="Wrap" Text="Mois" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="Month2" HorizontalAlignment="Left" Height="19" Margin="316,61,0,0" TextWrapping="Wrap" Text="Jour (Nombre entier)" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="Month1" HorizontalAlignment="Left" Height="21" Margin="316,40,0,0" TextWrapping="Wrap" Text="Jour (Nombre entier)" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="Month3" HorizontalAlignment="Left" Height="19" Margin="316,80,0,0" TextWrapping="Wrap" Text="Mois (Nombre entier)" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="Month4" HorizontalAlignment="Left" Height="19" Margin="316,99,0,0" TextWrapping="Wrap" Text="Mois (Nombre entier)" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="City1" HorizontalAlignment="Left" Height="19" Margin="316,118,0,0" TextWrapping="Wrap" Text="Nom de la ville" VerticalAlignment="Top" Width="120"/>
     </Grid>
 </Window>

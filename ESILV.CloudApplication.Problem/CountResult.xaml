@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ESILV.CloudApplication.Problem"
         mc:Ignorable="d"
-        Title="Résultat" Height="93" Width="300">
-    <Grid>
+        Title="Résultat" Height="93" Width="400">
+    <Grid ScrollViewer.CanContentScroll="True">
         <TextBlock Name="ResultTextBlock">Il y a 0 élément(s) dans la base de données.</TextBlock>
     </Grid>
 </Window>
