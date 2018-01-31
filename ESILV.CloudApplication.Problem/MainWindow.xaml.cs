@@ -78,7 +78,7 @@
         {
             var success = int.TryParse(Month3.Text, out int result);
             var queryResult = _mongoDBWrapper.ThirdQuery(success ? result : 1);
-            var countResultWindow = new CountResult(queryResult.ToJson(), "value");
+            var countResultWindow = new CountResult(queryResult.ToJson(), "value", "km parcourus en un mois par l'ensemble des avions.");
             countResultWindow.Show();
         }
 
