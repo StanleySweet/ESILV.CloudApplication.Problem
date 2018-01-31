@@ -29,7 +29,11 @@ namespace ESILV.CloudApplication.Problem
             var obj = JArray.Parse(count);
 
             InitializeComponent();
-            this.ResultTextBlock.Text = string.Format("Il y a {0} "+ finalString+".", obj[0][key]);
+            if (obj.Count <1) {
+                ResultTextBlock.Text = "Il n'y a aucun résultat disponible.";
+            } else {
+                ResultTextBlock.Text = string.Format("Il y a {0} " + finalString + ".", obj[0][key]);
+            }
         }
     }
 }
