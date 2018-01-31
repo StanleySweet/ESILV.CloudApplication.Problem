@@ -125,7 +125,11 @@
             var options = new MapReduceOptions<BsonDocument, BsonDocument>() { OutputOptions = MapReduceOutputOptions.Inline };
             return _collection.MapReduce(mapFunction, reduceFunction, options).ToList();
         }
-
+        /// <summary>
+        /// nombre d'annulation par type de problèmes sur un mois
+        /// </summary>
+        /// <param name="month"></param>
+        /// <returns></returns>
         public List<BsonDocument> FourthQuery(int month)
         {
             string mapFunction = @"
@@ -134,6 +138,47 @@
                   var flight = this;
                   var regExp = new RegExp(/['""']+/g);
                 if (parseFloat(flight.Cancelled) != 0 && Number(flight.Month) == " + month + @")
+                {
+                    var cleanedCode = flight.CancellationCode.replace(regExp, '');
+
+                    switch (cleanedCode)
+                    {
+                        case ""A"":
+                            emit(""Carrier"", 1);
+                            break;
+                        case ""B"":
+                            emit(""Weather"", 1);
+                            break;
+                        case ""C"":
+                            emit(""National Air System"", 1);
+                            break;
+                        case ""D"":
+                            emit(""Security"", 1);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }";
+
+            string reduceFunction = "function (key, values) { return Array.sum(values);}";
+            var options = new MapReduceOptions<BsonDocument, BsonDocument>() { OutputOptions = MapReduceOutputOptions.Inline };
+            return _collection.MapReduce(mapFunction, reduceFunction, options).ToList();
+        }
+
+        /// <summary>
+        /// type de problèmes qui ont amené une annulation de vol par aéroport
+        /// </summary>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        public List<BsonDocument> FifthQuery(string airportCityName)
+        {
+            string mapFunction = @"
+                function ()
+                {
+                  var flight = this;
+                  var regExp = new RegExp(/['""']+/g);
+                if (parseFloat(flight.Cancelled) != 0 && flight.DestCityName.replace(regExp, '') == """ + airportCityName + @""")
                 {
                     var cleanedCode = flight.CancellationCode.replace(regExp, '');
 

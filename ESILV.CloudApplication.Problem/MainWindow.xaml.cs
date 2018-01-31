@@ -84,8 +84,7 @@
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            var success = int.TryParse(Month4.Text, out int result);
-            var queryResult = _mongoDBWrapper.FourthQuery(success ? result : 1);
+            var queryResult = _mongoDBWrapper.FifthQuery(!string.IsNullOrEmpty(City1.Text) && City1.Text != "Nom de la ville" ? City1.Text : "Detroit, MI");
             var countResultWindow = new JsonViewer(queryResult.ToJson());
             countResultWindow.Show();
         }
