@@ -3,10 +3,8 @@
     using MongoDB.Bson;
     using System.Diagnostics;
     using System.IO;
-    using System.Text.RegularExpressions;
     using System.Windows;
     using System.Windows.Forms;
-    using MongoDB.Driver;
     using ESILV.CloudApplication.Problem.MongoDBWrapper;
 
     /// <summary>
@@ -25,19 +23,19 @@
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var queryResult = _mongoDBWrapper.CountLines();
-            CountResult win2 = new CountResult(queryResult.ToJson());
+            var win2 = new CountResult(queryResult.ToJson());
             win2.Show();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            var openFileDialog1 = new OpenFileDialog();
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Debug.WriteLine(openFileDialog1.FileName);
                 // where <full path to csv> is the file path, of course
                 // StreamReader is IDisposable, so dispose it properly.
-                using (StreamReader csvFile = new StreamReader(File.OpenRead(@"" + openFileDialog1.FileName + "")))
+                using (var csvFile = new StreamReader(File.OpenRead(@"" + openFileDialog1.FileName + "")))
                 {
                     _mongoDBWrapper.ImportCsvIntoCollection(csvFile, Constants.COLLECTION_NAME);
                     System.Windows.Forms.MessageBox.Show(openFileDialog1.FileName + " correctement chargé dans la base de données", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -45,12 +43,43 @@
             }
         }
 
+        /// <summary>
+        /// Sort the top 10 most used destinations
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            var queryResult = _mongoDBWrapper.FirstQuery();
-            var success = int.TryParse(MaxCities.Text, out int result);
-            Chart win2 = new Chart(queryResult.ToJson(), success ? result : 10);
-            win2.Show();
+            var success = int.TryParse(Month1.Text, out int result);
+            var queryResult = _mongoDBWrapper.FirstQuery(success ? result : 10);
+            var chartWindow = new Chart(queryResult.ToJson());
+            chartWindow.Show();
+        }
+
+        /// <summary>
+        /// Sort the top 10 less used destinations
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            var success = int.TryParse(Month2.Text, out int result);
+            var queryResult = _mongoDBWrapper.SecondQuery(success ? result : 10);
+            var chartWindow = new Chart(queryResult.ToJson());
+            chartWindow.Show();
+        }
+
+        /// <summary>
+        /// Map reduce to get the number of km
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            var success = int.TryParse(Month3.Text, out int result);
+            var queryResult = _mongoDBWrapper.ThirdQuery(success ? result : 1);
+            var countResultWindow = new CountResult(queryResult.ToJson(), "value");
+            countResultWindow.Show();
         }
     }
 }

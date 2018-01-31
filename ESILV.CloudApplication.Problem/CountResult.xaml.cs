@@ -24,12 +24,12 @@ namespace ESILV.CloudApplication.Problem
         {
             InitializeComponent();
         }
-        public CountResult(string count)
+        public CountResult(string count, string key = "count")
         {
             var obj = JArray.Parse(count);
 
             InitializeComponent();
-            this.ResultTextBlock.Text = string.Format("Il y a {0} élément(s) dans la base de données.", obj[0]["count"]);
+            this.ResultTextBlock.Text = string.Format("Il y a {0} élément(s) dans la base de données.", obj[0][key]);
         }
     }
 }

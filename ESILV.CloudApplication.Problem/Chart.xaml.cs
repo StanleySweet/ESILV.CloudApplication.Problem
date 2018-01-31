@@ -21,13 +21,13 @@ namespace ESILV.CloudApplication.Problem
     /// </summary>
     public partial class Chart : Window
     {
-        public Chart(string data, int maxCities)
+        public Chart(string data)
         {
             InitializeComponent();
-            LoadBarChartData(data, maxCities);
+            LoadBarChartData(data);
         }
 
-        private void LoadBarChartData(string data , int max)
+        private void LoadBarChartData(string data)
         {
             var obj = JArray.Parse(data);
 
@@ -37,14 +37,9 @@ namespace ESILV.CloudApplication.Problem
             {
                 ++count;
                 values.Add(new KeyValuePair<string, int>(city["_id"].ToString(), int.Parse(city["count"].ToString())));
-                if (count == max)
-                    break;
             }
             ((BarSeries)mcChart.Series[0]).ItemsSource = values;
-            
-            ((BarSeries)mcChart.Series[0]).FontSize = 10;
-            //grid.Height = Math.Max(max * 25, count * 25);
-            ((BarSeries)mcChart.Series[0]).Height = Math.Max(Math.Max(max * 25, count * 25), 700);
+            ((BarSeries)mcChart.Series[0]).FontSize = 12;
         }
     }
 }
